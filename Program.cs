@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace Spell
@@ -16,9 +17,9 @@ namespace Spell
   {
     struct Element
     {
-      string Name;
-      string Symbol;
-      int Atomic;
+      public string Name;
+      public string Symbol;
+      public int Atomic;
     }
 
     periodictable table;
@@ -31,8 +32,17 @@ namespace Spell
 
     public void Init()
     {
+      List<Element> elements = new List<Element>();
       XmlDocument resolver = new XmlDocument();
       resolver.LoadXml(table.GetAtoms());
+      foreach (XmlNode tag in resolver.GetElementsByTagName("ElementName"))
+      {
+        Element element = new Element() { Name = tag.InnerXml };
+        resolver.LoadXml(table.GetAtomicNumber(element.Name));
+        element.Symbol = resolver.GetElementsByTagName("Symbol")[0].InnerXml;
+	element.Atomic = int.Parse(resolver.GetElementsByTagName("AtomicNumber")[0].InnerXml);
+      }
+      this.elements = elements.ToArray();
     }
   }
 }
