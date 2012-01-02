@@ -18,9 +18,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml;
 
 namespace Spell
 {
@@ -28,7 +25,7 @@ namespace Spell
   {
     public static void Main()
     {
-      PeriodicTable table = new PeriodicTable();
+      PeriodicTableLogic table = new PeriodicTableLogic();
       table.Init();
       table.Spell("bacon jack troll nerd");
     }
@@ -42,67 +39,6 @@ namespace Spell
         yield return pos;
         offset = pos + length;
       }
-    }
-  }
-
-  class PeriodicTable
-  {
-    public struct Element
-    {
-      public string Name;
-      public string Symbol;
-      public int Atomic;
-    }
-
-    periodictable table;
-    Element[] elements;
-
-    public PeriodicTable()
-    {
-      table = new periodictable();
-    }
-
-    public void Init()
-    {
-      List<Element> elements = new List<Element>();
-      XmlDocument resolver = new XmlDocument();
-      resolver.LoadXml(table.GetAtoms());
-      foreach (XmlNode tag in resolver.GetElementsByTagName("ElementName"))
-      {
-        Element element = new Element() { Name = tag.InnerXml };
-        resolver.LoadXml(table.GetAtomicNumber(element.Name));
-        element.Symbol = resolver.GetElementsByTagName("Symbol")[0].InnerXml;
-	element.Atomic = int.Parse(resolver.GetElementsByTagName("AtomicNumber")[0].InnerXml);
-        elements.Add(element);
-      }
-      this.elements = elements.OrderByDescending(e => e.Symbol.Length).ToArray();
-    }
-
-    public Element?[] Spell(string word)
-    {
-      Dictionary<int, Element> indexed = new Dictionary<int, Element>();
-      word = Regex.Replace(word.ToLower(), "[^a-z\\s]", "");
-      foreach (Element element in elements)
-      {
-        string symbol = element.Symbol.ToLower();
-	if (word.Contains(symbol))
-	{
-	  foreach (int i in word.IndexOfAll(symbol))
-	    indexed.Add(i, element);
-          word = word.Replace(symbol, new string ('_', symbol.Length));
-	}
-      }
-      List<Element?> spelled = new List<Element?>();
-      int max = indexed.Max(item => item.Key);
-      Element value;
-      for (int i = 0; i < max; i++)
-      {
-        if (indexed.TryGetValue(i, out value))
-          spelled.Add(value);
-        else if (word[i] == ' ')
-          spelled.Add(null);
-      }
-      return spelled.ToArray();
     }
   }
 }
