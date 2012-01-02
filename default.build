@@ -8,6 +8,7 @@
     <delete file="Periodic.exe.mdb" failonerror="false" />
   </target>
   <target name="build" description="compiles the source code">
+    <wsdl path="http://www.webservicex.net/periodictable.asmx?WSDL" language="CS" namespace="Spell" outfile="PeriodicTableService.cs" />
     <csc target="exe" output="Periodic.exe" debug="${debug}">
       <references>
         <include name="System.Drawing.dll" />
@@ -16,7 +17,7 @@
       </references>
       <sources>
         <include name="Element.cs" />
-        <include name="periodictable.cs" />
+        <include name="PeriodicTableService.cs" />
         <include name="PeriodicTableLogic.cs" />
         <include name="PeriodicTableRender.cs" />
         <include name="PeriodicTableRenderOptions.cs" />
