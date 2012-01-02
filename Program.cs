@@ -17,7 +17,6 @@
 */
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace Spell
 {
@@ -27,7 +26,7 @@ namespace Spell
     {
       PeriodicTableLogic table = new PeriodicTableLogic();
       table.Init();
-      table.Spell("bacon jack troll nerd");
+      table.Spell("bacon");
     }
 
     public static IEnumerable IndexOfAll(this string input, string search)
