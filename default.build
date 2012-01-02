@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project name="Periodic" default="build" basedir=".">
+  <description>Periodic compiler.</description>
+  <property name="debug" value="true" overwrite="false" />
+  <target name="clean" description="remove all generated files">
+    <delete file="Periodic.exe" failonerror="false" />
+    <delete file="Periodic.pdb" failonerror="false" />
+    <delete file="Periodic.mdb" failonerror="false" />
+  </target>
+  <target name="build" description="compiles the source code">
+    <csc target="exe" output="Periodic.exe" debug="${debug}">
+      <references>
+        <include name="System.Drawing.dll" />
+        <include name="System.Web.Services.dll" />
+        <include name="System.Xml.dll" />
+      </references>
+      <sources>
+        <include name="Element.cs" />
+        <include name="periodictable.cs" />
+        <include name="PeriodicTableLogic.cs" />
+        <include name="PeriodicTableRender.cs" />
+        <include name="PeriodicTableRenderOptions.cs" />
+        <include name="Program.cs" />
+      </sources>
+    </csc>
+  </target>
+</project>
