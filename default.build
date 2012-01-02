@@ -4,8 +4,8 @@
   <property name="debug" value="true" overwrite="false" />
   <target name="clean" description="remove all generated files">
     <delete file="Periodic.exe" failonerror="false" />
-    <delete file="Periodic.pdb" failonerror="false" />
-    <delete file="Periodic.mdb" failonerror="false" />
+    <delete file="Periodic.exe.pdb" failonerror="false" />
+    <delete file="Periodic.exe.mdb" failonerror="false" />
   </target>
   <target name="build" description="compiles the source code">
     <csc target="exe" output="Periodic.exe" debug="${debug}">

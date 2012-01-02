@@ -32,5 +32,10 @@ namespace Spell
       get;
       set;
     }
+    public Pen LinePen
+    {
+      get;
+      set;
+    }
   }
 }

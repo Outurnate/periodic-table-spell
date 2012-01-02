@@ -34,7 +34,11 @@ namespace Spell
       Bitmap output = new Bitmap(elements.Length * options.ElementWidth, options.ElementHeight);
       Graphics g = Graphics.FromImage(output);
       for (int i = 0; i < elements.Length; i++)
-        if (elements[i].HasValue);
+        if (elements[i].HasValue)
+	{
+          Rectangle currentRectangle = new Rectangle(i * options.ElementWidth, 0, options.ElementWidth, options.ElementHeight);
+	  g.DrawRectangle(options.LinePen, currentRectangle);
+	}
     }
   }
 }
