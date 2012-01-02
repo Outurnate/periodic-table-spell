@@ -16,33 +16,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
-using System.Collections;
+using System.Drawing;
 
 namespace Spell
 {
-  static class Program
+  class PeriodicTableRenderer
   {
-    public static void Main()
+    PeriodicTableRenderOptions options;
+
+    public PeriodicTableRenderer(PeriodicTableRenderOptions options)
     {
-      PeriodicTableLogic table = new PeriodicTableLogic();
-      PeriodicTableRenderer renderer = new PeriodicTableRenderer(new PeriodicTableRenderOptions() 
-								 {
-								   ElementWidth = 64,
-                                                                   ElementHeight = 64
-								 });
-      table.Init();
-      renderer.Render(table.Spell("bacon"));
+      this.options = options;
     }
 
-    public static IEnumerable IndexOfAll(this string input, string search)
+    public void Render(Element?[] elements)
     {
-      int pos, offset = 0;
-      int length = search.Length;
-      while ((pos = input.IndexOf(search, offset)) != -1)
-      {
-        yield return pos;
-        offset = pos + length;
-      }
+      Bitmap output = new Bitmap(elements.Length * options.ElementWidth, options.ElementHeight);
+      Graphics g = Graphics.FromImage(output);
     }
   }
 }

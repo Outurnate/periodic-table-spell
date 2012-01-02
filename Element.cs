@@ -15,34 +15,13 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-using System;
-using System.Collections;
 
 namespace Spell
 {
-  static class Program
+  struct Element
   {
-    public static void Main()
-    {
-      PeriodicTableLogic table = new PeriodicTableLogic();
-      PeriodicTableRenderer renderer = new PeriodicTableRenderer(new PeriodicTableRenderOptions() 
-								 {
-								   ElementWidth = 64,
-                                                                   ElementHeight = 64
-								 });
-      table.Init();
-      renderer.Render(table.Spell("bacon"));
-    }
-
-    public static IEnumerable IndexOfAll(this string input, string search)
-    {
-      int pos, offset = 0;
-      int length = search.Length;
-      while ((pos = input.IndexOf(search, offset)) != -1)
-      {
-        yield return pos;
-        offset = pos + length;
-      }
-    }
+    public string Name;
+    public string Symbol;
+    public int Atomic;
   }
 }

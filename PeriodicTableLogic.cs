@@ -25,13 +25,6 @@ namespace Spell
 {
   class PeriodicTableLogic
   {
-    public struct Element
-    {
-      public string Name;
-      public string Symbol;
-      public int Atomic;
-    }
-
     periodictable table;
     Element[] elements;
 
