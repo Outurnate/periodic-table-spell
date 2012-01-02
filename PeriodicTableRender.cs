@@ -33,6 +33,8 @@ namespace Spell
     {
       Bitmap output = new Bitmap(elements.Length * options.ElementWidth, options.ElementHeight);
       Graphics g = Graphics.FromImage(output);
+      for (int i = 0; i < elements.Length; i++)
+        if (elements[i].HasValue)
     }
   }
 }
