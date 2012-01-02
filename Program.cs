@@ -30,7 +30,7 @@ namespace Spell
     {
       PeriodicTable table = new PeriodicTable();
       table.Init();
-      table.Spell("bacon bacon");
+      table.Spell("bacon jack troll nerd");
     }
 
     public static IEnumerable IndexOfAll(this string input, string search)
@@ -47,7 +47,7 @@ namespace Spell
 
   class PeriodicTable
   {
-    struct Element
+    public struct Element
     {
       public string Name;
       public string Symbol;
@@ -75,11 +75,10 @@ namespace Spell
 	element.Atomic = int.Parse(resolver.GetElementsByTagName("AtomicNumber")[0].InnerXml);
         elements.Add(element);
       }
-      elements.OrderByDescending(e => e.Symbol.Length);
-      this.elements = elements.ToArray();
+      this.elements = elements.OrderByDescending(e => e.Symbol.Length).ToArray();
     }
 
-    public void Spell(string word)
+    public Element?[] Spell(string word)
     {
       Dictionary<int, Element> indexed = new Dictionary<int, Element>();
       word = Regex.Replace(word.ToLower(), "[^a-z\\s]", "");
@@ -93,7 +92,17 @@ namespace Spell
           word = word.Replace(symbol, new string ('_', symbol.Length));
 	}
       }
-      Console.WriteLine(word);
+      List<Element?> spelled = new List<Element?>();
+      int max = indexed.Max(item => item.Key);
+      Element value;
+      for (int i = 0; i < max; i++)
+      {
+        if (indexed.TryGetValue(i, out value))
+          spelled.Add(value);
+        else if (word[i] == ' ')
+          spelled.Add(null);
+      }
+      return spelled.ToArray();
     }
   }
 }
