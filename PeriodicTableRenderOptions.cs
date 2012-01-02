@@ -37,5 +37,30 @@ namespace Spell
       get;
       set;
     }
+    public bool ForceAntiAlias
+    {
+      get;
+      set;
+    }
+    public Brush SymbolBrush
+    {
+      get;
+      set;
+    }
+    public Brush NumberBrush
+    {
+      get;
+      set;
+    }
+    public Brush NameBrush
+    {
+      get;
+      set;
+    }
+    public string Font
+    {
+      get;
+      set;
+    }
   }
 }

@@ -17,6 +17,7 @@
 */
 using System;
 using System.Drawing;
+using System.Drawing.Text;
 
 namespace Spell
 {
@@ -29,16 +30,21 @@ namespace Spell
       this.options = options;
     }
 
-    public void Render(Element?[] elements)
+    public Bitmap Render(Element?[] elements)
     {
       Bitmap output = new Bitmap(elements.Length * options.ElementWidth, options.ElementHeight);
       Graphics g = Graphics.FromImage(output);
+      StringFormat symbolFormat = new StringFormat();
+      symbolFormat.Alignment = symbolFormat.LineAlignment = StringAlignment.Center;
       for (int i = 0; i < elements.Length; i++)
         if (elements[i].HasValue)
 	{
           Rectangle currentRectangle = new Rectangle(i * options.ElementWidth, 0, options.ElementWidth, options.ElementHeight);
+          g.TextRenderingHint = options.ForceAntiAlias ? TextRenderingHint.AntiAlias : TextRenderingHint.SystemDefault;
 	  g.DrawRectangle(options.LinePen, currentRectangle);
+          g.DrawString(elements[i].Value.Symbol, new Font(options.Font, 30), options.SymbolBrush, currentRectangle, symbolFormat);
 	}
+      return output;
     }
   }
 }

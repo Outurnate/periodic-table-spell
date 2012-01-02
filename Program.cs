@@ -28,10 +28,12 @@ namespace Spell
       PeriodicTableRenderer renderer = new PeriodicTableRenderer(new PeriodicTableRenderOptions() 
 								 {
 								   ElementWidth = 64,
-                                                                   ElementHeight = 64
+                                                                   ElementHeight = 64,
+                                                                   LinePen = new System.Drawing.Pen(System.Drawing.Color.Black),
+                                                                   ForceAntiAlias = true
 								 });
       table.Init();
-      renderer.Render(table.Spell("bacon"));
+      renderer.Render(table.Spell("bacon")).Save("test.png", System.Drawing.Imaging.ImageFormat.Png);
     }
 
     public static IEnumerable IndexOfAll(this string input, string search)
