@@ -16,8 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Spell
@@ -28,7 +30,18 @@ namespace Spell
     {
       PeriodicTable table = new PeriodicTable();
       table.Init();
-      table.Spell("bacon");
+      table.Spell("bacon bacon");
+    }
+
+    public static IEnumerable IndexOfAll(this string input, string search)
+    {
+      int pos, offset = 0;
+      int length = search.Length;
+      while ((pos = input.IndexOf(search, offset)) != -1)
+      {
+        yield return pos;
+        offset = pos + length;
+      }
     }
   }
 
@@ -60,25 +73,27 @@ namespace Spell
         resolver.LoadXml(table.GetAtomicNumber(element.Name));
         element.Symbol = resolver.GetElementsByTagName("Symbol")[0].InnerXml;
 	element.Atomic = int.Parse(resolver.GetElementsByTagName("AtomicNumber")[0].InnerXml);
+        elements.Add(element);
       }
+      elements.OrderByDescending(e => e.Symbol.Length);
       this.elements = elements.ToArray();
     }
 
     public void Spell(string word)
     {
-      List<int> indexes = new List<int>();
-      for (int i = 0; i < word.Length; i++)
-        indexes.Add(i);
+      Dictionary<int, Element> indexed = new Dictionary<int, Element>();
+      word = Regex.Replace(word.ToLower(), "[^a-z\\s]", "");
       foreach (Element element in elements)
-	if (word.Contains(element.Symbol))
-	  for (int i = 0; i < element.Symbol.Length; i++)
-	  {
-	    try
-	    {
-	      indexes.Remove(i);
-	    }
-            catch (Exception) { }
-	  }
+      {
+        string symbol = element.Symbol.ToLower();
+	if (word.Contains(symbol))
+	{
+	  foreach (int i in word.IndexOfAll(symbol))
+	    indexed.Add(i, element);
+          word = word.Replace(symbol, new string ('_', symbol.Length));
+	}
+      }
+      Console.WriteLine(word);
     }
   }
 }
