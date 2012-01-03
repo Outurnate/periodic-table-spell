@@ -42,7 +42,9 @@ namespace Spell
           Rectangle currentRectangle = new Rectangle(i * options.ElementWidth, 0, options.ElementWidth, options.ElementHeight);
           g.TextRenderingHint = options.ForceAntiAlias ? TextRenderingHint.AntiAlias : TextRenderingHint.SystemDefault;
 	  g.DrawRectangle(options.LinePen, currentRectangle);
-          g.DrawString(elements[i].Value.Symbol, new Font(options.Font, 30), options.SymbolBrush, currentRectangle, symbolFormat);
+          g.DrawString(elements[i].Value.Symbol, new Font(options.Font, 25), options.SymbolBrush, currentRectangle, symbolFormat);
+          g.DrawString(elements[i].Value.Atomic.ToString(), new Font(options.Font, 8), options.SymbolBrush, new Rectangle(currentRectangle.X + (options.ElementWidth - 18), currentRectangle.Y, 16, 16), symbolFormat);
+          g.DrawString(elements[i].Value.Name, new Font(options.Font, 6), options.SymbolBrush, new Rectangle(currentRectangle.X, options.ElementHeight - 16, options.ElementWidth, 16), symbolFormat);
 	}
       return output;
     }

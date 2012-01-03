@@ -24,5 +24,8 @@
         <include name="Program.cs" />
       </sources>
     </csc>
+    <if test="${debug}">
+      <exec program="pdb2mdb" commandline="Periodic.exe" failonerror="false" />
+    </if>
   </target>
 </project>

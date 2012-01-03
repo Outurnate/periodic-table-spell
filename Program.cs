@@ -30,10 +30,12 @@ namespace Spell
 								   ElementWidth = 64,
                                                                    ElementHeight = 64,
                                                                    LinePen = new System.Drawing.Pen(System.Drawing.Color.Black),
-                                                                   ForceAntiAlias = true
+                                                                   ForceAntiAlias = true,
+                                                                   SymbolBrush = System.Drawing.Brushes.Black,
+                                                                   Font = "Tahoma"
 								 });
       table.Init();
-      renderer.Render(table.Spell("bacon")).Save("test.png", System.Drawing.Imaging.ImageFormat.Png);
+      renderer.Render(table.Spell("uuuuuuuco")).Save("test.png", System.Drawing.Imaging.ImageFormat.Png);
     }
 
     public static IEnumerable IndexOfAll(this string input, string search)

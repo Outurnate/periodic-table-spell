@@ -66,7 +66,7 @@ namespace Spell
       List<Element?> spelled = new List<Element?>();
       int max = indexed.Max(item => item.Key);
       Element value;
-      for (int i = 0; i < max; i++)
+      for (int i = 0; i <= max; i++)
       {
         if (indexed.TryGetValue(i, out value))
           spelled.Add(value);
