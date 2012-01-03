@@ -34,7 +34,7 @@ namespace Spell
                                                                    SymbolBrush = System.Drawing.Brushes.Black,
                                                                    Font = "Tahoma"
 								 });
-      table.Init();
+      table.Init("./PeriodicTable.dat");
       renderer.Render(table.Spell("uuuuuuuco")).Save("test.png", System.Drawing.Imaging.ImageFormat.Png);
     }
 

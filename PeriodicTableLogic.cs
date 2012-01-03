@@ -17,7 +17,9 @@
 */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using System.Xml;
 
@@ -27,26 +29,39 @@ namespace Spell
   {
     periodictable table;
     Element[] elements;
+    BinaryFormatter serializer;
 
     public PeriodicTableLogic()
     {
       table = new periodictable();
+      serializer = new BinaryFormatter();
     }
 
-    public void Init()
+    public void Init(string periodicData)
     {
-      List<Element> elements = new List<Element>();
-      XmlDocument resolver = new XmlDocument();
-      resolver.LoadXml(table.GetAtoms());
-      foreach (XmlNode tag in resolver.GetElementsByTagName("ElementName"))
+      if (File.Exists(periodicData))
       {
-        Element element = new Element() { Name = tag.InnerXml };
-        resolver.LoadXml(table.GetAtomicNumber(element.Name));
-        element.Symbol = resolver.GetElementsByTagName("Symbol")[0].InnerXml;
-	element.Atomic = int.Parse(resolver.GetElementsByTagName("AtomicNumber")[0].InnerXml);
-        elements.Add(element);
+        Stream file = File.Open(periodicData, FileMode.OpenOrCreate);
+        this.elements = (Element[])serializer.Deserialize(file);
       }
-      this.elements = elements.OrderByDescending(e => e.Symbol.Length).ToArray();
+      else
+      {
+        Stream file = File.Open(periodicData, FileMode.OpenOrCreate);
+        List<Element> elements = new List<Element>();
+        XmlDocument resolver = new XmlDocument();
+        resolver.LoadXml(table.GetAtoms());
+        foreach (XmlNode tag in resolver.GetElementsByTagName("ElementName"))
+        {
+          Element element = new Element() { Name = tag.InnerXml };
+          resolver.LoadXml(table.GetAtomicNumber(element.Name));
+          element.Symbol = resolver.GetElementsByTagName("Symbol")[0].InnerXml;
+	  element.Atomic = int.Parse(resolver.GetElementsByTagName("AtomicNumber")[0].InnerXml);
+          elements.Add(element);
+          Console.WriteLine("Downloaded " + tag.InnerXml);
+        }
+        this.elements = elements.OrderByDescending(e => e.Symbol.Length).ToArray();
+        serializer.Serialize(file, this.elements);
+      }
     }
 
     public Element?[] Spell(string word)
