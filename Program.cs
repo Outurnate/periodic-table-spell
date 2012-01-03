@@ -35,7 +35,7 @@ namespace Spell
                                                                    Font = "Tahoma"
 								 });
       table.Init("./PeriodicTable.dat");
-      renderer.Render(table.Spell("uuuuuuuco")).Save("test.png", System.Drawing.Imaging.ImageFormat.Png);
+      renderer.Render(table.Spell("bacon", PeriodicTableLogic.SearchAlgorithm.ChunkSearch)).Save("test.png", System.Drawing.Imaging.ImageFormat.Png);
     }
 
     public static IEnumerable IndexOfAll(this string input, string search)

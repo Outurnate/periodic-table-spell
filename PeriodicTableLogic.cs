@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,6 +28,12 @@ namespace Spell
 {
   class PeriodicTableLogic
   {
+    public enum SearchAlgorithm
+    {
+      ElementBased,
+      ChunkSearch
+    };
+
     periodictable table;
     Element[] elements;
     BinaryFormatter serializer;
@@ -64,19 +71,41 @@ namespace Spell
       }
     }
 
-    public Element?[] Spell(string word)
+    public Element?[] Spell(string word, SearchAlgorithm algorithm)
     {
       Dictionary<int, Element> indexed = new Dictionary<int, Element>();
       word = Regex.Replace(word.ToLower(), "[^a-z\\s]", "");
-      foreach (Element element in elements)
+      switch (algorithm)
       {
-        string symbol = element.Symbol.ToLower();
-	if (word.Contains(symbol))
+      case SearchAlgorithm.ElementBased:
+        foreach (Element element in elements)
+        {
+          string symbol = element.Symbol.ToLower();
+          if (word.Contains(symbol))
+	  {
+            foreach (int i in word.IndexOfAll(symbol))
+              indexed.Add(i, element);
+            word = word.Replace(symbol, new string ('_', symbol.Length));
+          }
+        }
+        break;
+
+      case SearchAlgorithm.ChunkSearch:
+        int maxElementLength = elements.Max(e => e.Symbol.Length);
+        for (int searchLength = maxElementLength; searchLength > 0; searchLength--)
 	{
-	  foreach (int i in word.IndexOfAll(symbol))
-	    indexed.Add(i, element);
-          word = word.Replace(symbol, new string ('_', symbol.Length));
+          Element[] currentElements = elements.Where(e => e.Symbol.Length == searchLength).ToArray();
+          for (int x = 0; x < word.Length - searchLength + 1; x++)
+	    foreach(Element currentElement in currentElements)
+              if (word.Substring(x, searchLength) == currentElement.Symbol.ToLower())
+	      {
+		indexed.Add(x, currentElement);
+                ArrayList tmpList = new ArrayList(((ICollection)(Array)word.ToCharArray()));
+                tmpList.SetRange(x, (ICollection)(Array)new string('_', searchLength).ToCharArray());
+                word = new string(Array.ConvertAll(tmpList.ToArray(), item => (char)item));
+	      }
 	}
+        break;
       }
       List<Element?> spelled = new List<Element?>();
       int max = indexed.Max(item => item.Key);
