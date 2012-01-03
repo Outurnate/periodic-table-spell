@@ -22,6 +22,8 @@
         <include name="PeriodicTableLogic.cs" />
         <include name="PeriodicTableRender.cs" />
         <include name="PeriodicTableRenderOptions.cs" />
+        <include name="PeriodicTableUI.cs" />
+        <include name="PeriodicTableUICore.cs" />
         <include name="Program.cs" />
       </sources>
       <resources>
