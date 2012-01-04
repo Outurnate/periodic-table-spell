@@ -16,8 +16,58 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
+using System.Threading;
+using Gtk;
+using Glade;
+
+using GladeXml = Glade.XML;
 
 namespace Spell
 {
-  
+  class PeriodicTableUI
+  {
+    class Loader
+    {
+      [Widget]
+      ProgressBar totalProgress;
+      [Widget]
+      Window loaderWindow;
+
+      PeriodicTableLogic logic;
+
+      public Loader(PeriodicTableLogic logic, Window mainWindow)
+      {
+        this.logic = logic;
+        GladeXml dlg_loading = new GladeXml(null, "loader.glade", "loaderWindow", null);
+        dlg_loading.Autoconnect(this);
+        loaderWindow.Hidden += new EventHandler(delegate(object sender, EventArgs e)
+	  {
+	    Application.Invoke(delegate(object sender2, EventArgs e2) { mainWindow.ShowAll(); });
+	  });
+      }
+    }
+
+    PeriodicTableLogic logic;
+    PeriodicTableRenderer renderer;
+    Loader loader;
+
+    public PeriodicTableUI(PeriodicTableLogic logic, PeriodicTableRenderer renderer)
+    {
+      this.logic = logic;
+      this.renderer = renderer;
+      Application.Init();
+      GladeXml dlg_main = new GladeXml(null, "main.glade", "mainWindow", null);
+      dlg_main.Autoconnect(this);
+      loader = new Loader(logic, mainWindow);
+    }
+
+    public void Run()
+    {
+      mainWindow.Hide();
+      Application.Run();
+    }
+
+    [Widget]
+    Window mainWindow;
+  }
 }

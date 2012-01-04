@@ -34,8 +34,8 @@ namespace Spell
                                                                    SymbolBrush = System.Drawing.Brushes.Black,
                                                                    Font = "Tahoma"
 								 });
-      table.Init("./PeriodicTable.dat");
-      renderer.Render(table.Spell("bacon", PeriodicTableLogic.SearchAlgorithm.ChunkSearch)).Save("test.png", System.Drawing.Imaging.ImageFormat.Png);
+      PeriodicTableUI ui = new PeriodicTableUI(table, renderer);
+      ui.Run();
     }
 
     public static IEnumerable IndexOfAll(this string input, string search)

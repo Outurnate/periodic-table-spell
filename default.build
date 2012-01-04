@@ -16,6 +16,9 @@
         <include name="System.Web.Services.dll" />
         <include name="System.Xml.dll" />
       </references>
+      <pkg-references>
+        <package name="glade-sharp-2.0" unless="${windows}" />
+      </pkg-references>
       <sources>
         <include name="Element.cs" />
         <include name="PeriodicTableService.cs" />
@@ -28,6 +31,7 @@
       </sources>
       <resources>
         <include name="gui/loader.glade" unless="${windows}" />
+        <include name="gui/main.glade" unless="${windows}" />
       </resources>
     </csc>
     <if test="${debug}">

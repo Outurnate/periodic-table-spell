@@ -34,6 +34,8 @@ namespace Spell
       ChunkSearch
     };
 
+    public delegate void HandleProgress(double progress, string status);
+
     periodictable table;
     Element[] elements;
     BinaryFormatter serializer;
@@ -44,8 +46,10 @@ namespace Spell
       serializer = new BinaryFormatter();
     }
 
-    public void Init(string periodicData)
+    public void Init(string periodicData, HandleProgress progress)
     {
+      Console.WriteLine("init");
+      progress(0, "Searching for cached table...");
       if (File.Exists(periodicData))
       {
         Stream file = File.Open(periodicData, FileMode.OpenOrCreate);
@@ -57,13 +61,16 @@ namespace Spell
         List<Element> elements = new List<Element>();
         XmlDocument resolver = new XmlDocument();
         resolver.LoadXml(table.GetAtoms());
-        foreach (XmlNode tag in resolver.GetElementsByTagName("ElementName"))
+        XmlNodeList nodes = resolver.GetElementsByTagName("ElementName");
+        int i = 0;
+        foreach (XmlNode tag in nodes)
         {
           Element element = new Element() { Name = tag.InnerXml };
           resolver.LoadXml(table.GetAtomicNumber(element.Name));
           element.Symbol = resolver.GetElementsByTagName("Symbol")[0].InnerXml;
 	  element.Atomic = int.Parse(resolver.GetElementsByTagName("AtomicNumber")[0].InnerXml);
           elements.Add(element);
+          progress((double)i++ / (double)nodes.Count, "Downloaded " + tag.InnerXml);
           Console.WriteLine("Downloaded " + tag.InnerXml);
         }
         this.elements = elements.OrderByDescending(e => e.Symbol.Length).ToArray();
