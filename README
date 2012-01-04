@@ -1,0 +1,14 @@
+------------------Periodic Table Speller------------------
+                An Entirely Useless Program               
+----------------------------------------------------------
+
+This program takes any word or phrase and spells it out
+using elements of the periodic table.  It depends on
+GTK# and .NET 2.0+ on windows and Mono on *nix.
+
+BUILDING
+----------------------------------------------------------
+It can be built simply by running NAnt on the source
+directory
+
+  $ nant
