@@ -48,7 +48,6 @@ namespace Spell
 
     public void Init(string periodicData, HandleProgress progress)
     {
-      Console.WriteLine("init");
       progress(0, "Searching for cached table...");
       if (File.Exists(periodicData))
       {
@@ -70,11 +69,11 @@ namespace Spell
 	  element.Atomic = int.Parse(resolver.GetElementsByTagName("AtomicNumber")[0].InnerXml);
           elements.Add(element);
           progress((double)i++ / (double)nodes.Count, "Downloaded " + tag.InnerXml);
-          Console.WriteLine("Downloaded " + tag.InnerXml);
         }
         this.elements = elements.OrderByDescending(e => e.Symbol.Length).ToArray();
         Stream file = File.Open(periodicData, FileMode.OpenOrCreate);
         serializer.Serialize(file, this.elements);
+        progress(1, "Complete");
       }
     }
 
