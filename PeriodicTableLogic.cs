@@ -57,7 +57,6 @@ namespace Spell
       }
       else
       {
-        Stream file = File.Open(periodicData, FileMode.OpenOrCreate);
         List<Element> elements = new List<Element>();
         XmlDocument resolver = new XmlDocument();
         resolver.LoadXml(table.GetAtoms());
@@ -74,6 +73,7 @@ namespace Spell
           Console.WriteLine("Downloaded " + tag.InnerXml);
         }
         this.elements = elements.OrderByDescending(e => e.Symbol.Length).ToArray();
+        Stream file = File.Open(periodicData, FileMode.OpenOrCreate);
         serializer.Serialize(file, this.elements);
       }
     }

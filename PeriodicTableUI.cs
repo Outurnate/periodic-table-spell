@@ -34,8 +34,11 @@ namespace Spell
       ProgressBar totalProgress;
       [Widget]
       Window loaderWindow;
+      [Widget]
+      Button cancelButton;
 
       PeriodicTableLogic logic;
+      Thread loaderThread;
 
       public Loader(PeriodicTableLogic logic, Window mainWindow)
       {
@@ -43,21 +46,44 @@ namespace Spell
         dlg_loading.Autoconnect(this);
         this.logic = logic;
         loaderWindow.Hidden += new EventHandler(delegate(object sender, EventArgs e)
-	  {
-	    Application.Invoke(delegate(object sender2, EventArgs e2) { mainWindow.ShowAll(); });
-	  });
+	{
+	  Application.Invoke(delegate(object sender2, EventArgs e2) { mainWindow.ShowAll(); });
+	});
+        loaderWindow.DeleteEvent += new DeleteEventHandler(delegate(object sender, DeleteEventArgs e)
+	{
+	  loaderThread.Abort();
+	});
+        cancelButton.Clicked += new EventHandler(delegate(object sender, EventArgs e)
+	{
+	  loaderWindow.Destroy();
+	  loaderThread.Abort();
+	});
       }
 
       public void Run()
       {
         Console.WriteLine("LoaderShown");
-        Thread loaderThread = new Thread(new ThreadStart(delegate()
+        loaderThread = new Thread(new ThreadStart(delegate()
         {
           logic.Init("./PeriodicTable.dat", new PeriodicTableLogic.HandleProgress(delegate(double progress, string status)
           {
-            Application.Invoke(delegate(object sender2, EventArgs e2) { totalProgress.Adjustment.Value = progress; progressStep.Text = status; });
+            try
+	    {
+              Application.Invoke(delegate(object sender2, EventArgs e2) { totalProgress.Adjustment.Value = progress; progressStep.Text = status; });
+            }
+            catch (NullReferenceException)
+	    {
+	      return;
+	    }
           }));
-          Application.Invoke(delegate(object sender2, EventArgs e2) { loaderWindow.Hide(); });
+          try
+	  {
+            Application.Invoke(delegate(object sender2, EventArgs e2) { loaderWindow.Hide(); });
+          }
+          catch (NullReferenceException)
+          {
+            return;
+          }
         }));
         loaderThread.Start();
       }
