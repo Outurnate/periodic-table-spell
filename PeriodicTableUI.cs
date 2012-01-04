@@ -62,7 +62,6 @@ namespace Spell
 
       public void Run()
       {
-        Console.WriteLine("LoaderShown");
         loaderThread = new Thread(new ThreadStart(delegate()
         {
           logic.Init("./PeriodicTable.dat", new PeriodicTableLogic.HandleProgress(delegate(double progress, string status)
