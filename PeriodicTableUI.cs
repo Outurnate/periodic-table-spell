@@ -29,6 +29,8 @@ namespace Spell
     class Loader
     {
       [Widget]
+      Label progressStep;
+      [Widget]
       ProgressBar totalProgress;
       [Widget]
       Window loaderWindow;
@@ -37,13 +39,27 @@ namespace Spell
 
       public Loader(PeriodicTableLogic logic, Window mainWindow)
       {
-        this.logic = logic;
         GladeXml dlg_loading = new GladeXml(null, "loader.glade", "loaderWindow", null);
         dlg_loading.Autoconnect(this);
+        this.logic = logic;
         loaderWindow.Hidden += new EventHandler(delegate(object sender, EventArgs e)
 	  {
 	    Application.Invoke(delegate(object sender2, EventArgs e2) { mainWindow.ShowAll(); });
 	  });
+      }
+
+      public void Run()
+      {
+        Console.WriteLine("LoaderShown");
+        Thread loaderThread = new Thread(new ThreadStart(delegate()
+        {
+          logic.Init("./PeriodicTable.dat", new PeriodicTableLogic.HandleProgress(delegate(double progress, string status)
+          {
+            Application.Invoke(delegate(object sender2, EventArgs e2) { totalProgress.Adjustment.Value = progress; progressStep.Text = status; });
+          }));
+          Application.Invoke(delegate(object sender2, EventArgs e2) { loaderWindow.Hide(); });
+        }));
+        loaderThread.Start();
       }
     }
 
@@ -64,6 +80,7 @@ namespace Spell
     public void Run()
     {
       mainWindow.Hide();
+      loader.Run();
       Application.Run();
     }
 
