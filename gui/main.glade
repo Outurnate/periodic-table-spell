@@ -79,6 +79,7 @@
         </child>
         <child>
           <widget class="GtkHBox" id="hbox3">
+            <property name="height_request">32</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -94,15 +95,16 @@
             </child>
             <child>
               <widget class="GtkButton" id="button1">
-                <property name="label" translatable="yes">button</property>
+                <property name="label" translatable="yes">Generate</property>
+                <property name="height_request">32</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_action_appearance">False</property>
               </widget>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -119,8 +121,8 @@
             </child>
           </widget>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -146,36 +148,38 @@
                 <property name="can_focus">False</property>
                 <child>
                   <widget class="GtkButton" id="button2">
-                    <property name="label" translatable="yes">button</property>
+                    <property name="label" translatable="yes">Save As...</property>
+                    <property name="width_request">96</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
                   </widget>
                   <packing>
-                    <property name="expand">True</property>
+                    <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="button3">
-                    <property name="label" translatable="yes">button</property>
+                    <property name="label" translatable="yes">About</property>
+                    <property name="width_request">96</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
                   </widget>
                   <packing>
-                    <property name="expand">True</property>
+                    <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
               </widget>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
