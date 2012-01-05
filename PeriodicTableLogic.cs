@@ -40,6 +40,12 @@ namespace Spell
     Element[] elements;
     BinaryFormatter serializer;
 
+    public bool IsInit
+    {
+      get;
+      private set;
+    }
+
     public PeriodicTableLogic()
     {
       table = new periodictable();
@@ -74,6 +80,7 @@ namespace Spell
         Stream file = File.Open(periodicData, FileMode.OpenOrCreate);
         serializer.Serialize(file, this.elements);
         progress(1, "Complete");
+        IsInit = true;
       }
     }
 
