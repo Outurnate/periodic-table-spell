@@ -12,3 +12,14 @@ It can be built simply by running NAnt on the source
 directory
 
   $ nant
+
+INSTALLING ON WINDOWS
+----------------------------------------------------------
+Simply run setup.exe
+(duh)
+
+INSTALLING ON LINUX
+----------------------------------------------------------
+Use dpkg to install
+
+  $ sudo dpkg -i periodic.deb
