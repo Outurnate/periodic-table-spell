@@ -125,10 +125,18 @@ namespace Spell
       });
       saveAs.Clicked += new EventHandler(delegate (object sender, EventArgs e)
       {
-        FileChooserDialog fc = new Gtk.FileChooserDialog("Save As...", mainWindow, FileChooserAction.Save, "Cancel", ResponseType.Cancel, "Save", ResponseType.Accept);
+        FileChooserDialog fc = new Gtk.FileChooserDialog("Save As...", mainWindow, FileChooserAction.Save, "Cancel", ResponseType.Cancel, "Save", ResponseType.Accept)
+	{
+	  DoOverwriteConfirmation = true
+	};
+        FileFilter filter = new FileFilter();
+	filter.Name = "PNG images";
+	filter.AddMimeType("image/png");
+	filter.AddPattern("*.png");
+        fc.AddFilter(filter);
         if (fc.Run() == (int)ResponseType.Accept)
 	{
-          Stream file = File.Open(fc.Filename, FileMode.OpenOrCreate);
+          Stream file = File.Open(string.IsNullOrEmpty(Path.GetExtension(fc.Filename)) ? (fc.Filename + ".png") : fc.Filename, FileMode.OpenOrCreate);
           loadedBitmap.Save(file, ImageFormat.Png);
 	  file.Close();
 	}
