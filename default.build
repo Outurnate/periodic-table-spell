@@ -2,6 +2,7 @@
 <project name="Periodic" default="build" basedir=".">
   <description>Periodic compiler.</description>
   <property name="debug" value="true" />
+  <property name="cmd" value="false" />
   <target name="clean" description="remove all generated files">
     <delete file="bin/periodic.exe" failonerror="false" />
     <delete file="bin/periodic.exe.pdb" failonerror="false" />
@@ -25,9 +26,9 @@
         <include name="PeriodicTableLogic.cs" />
         <include name="PeriodicTableRender.cs" />
         <include name="PeriodicTableRenderOptions.cs" />
-        <include name="PeriodicTableUI.cs" />
-        <include name="PeriodicTableUICore.cs" />
-        <include name="Program.cs" />
+        <include name="PeriodicTableUI.cs" unless="${cmd}" />
+        <include name="ProgramCmd.cs" if="${cmd}" />
+        <include name="Program.cs" unless="${cmd}" />
       </sources>
       <resources>
         <include name="gui/loader.glade" />
