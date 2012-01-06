@@ -20,6 +20,5 @@ Simply run setup.exe
 
 INSTALLING ON LINUX
 ----------------------------------------------------------
-Use dpkg to install
-
-  $ sudo dpkg -i periodic.deb
+  $ make
+  $ sudo make install
