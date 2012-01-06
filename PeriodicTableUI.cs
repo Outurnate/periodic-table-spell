@@ -149,6 +149,10 @@ namespace Spell
       {
         aboutDialog.Run();
       });
+      mainWindow.DeleteEvent += new DeleteEventHandler(delegate(object sender, DeleteEventArgs e)
+      {
+	Application.Quit();
+      });
       Assembly asm = Assembly.GetExecutingAssembly ();
       aboutDialog.ProgramName = (asm.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0] as AssemblyTitleAttribute).Title;
       aboutDialog.Version = asm.GetName().Version.ToString ();
