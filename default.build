@@ -2,7 +2,6 @@
 <project name="Periodic" default="build" basedir=".">
   <description>Periodic compiler.</description>
   <property name="debug" value="true" />
-  <property name="windows" value="false" />
   <target name="clean" description="remove all generated files">
     <delete file="periodic.exe" failonerror="false" />
     <delete file="periodic.exe.pdb" failonerror="false" />
@@ -17,7 +16,7 @@
         <include name="System.Xml.dll" />
       </references>
       <pkg-references>
-        <package name="glade-sharp-2.0" unless="${windows}" />
+        <package name="glade-sharp-2.0" />
       </pkg-references>
       <sources>
         <include name="AssemblyInfo.cs" />
@@ -31,8 +30,8 @@
         <include name="Program.cs" />
       </sources>
       <resources>
-        <include name="gui/loader.glade" unless="${windows}" />
-        <include name="gui/main.glade" unless="${windows}" />
+        <include name="gui/loader.glade" />
+        <include name="gui/main.glade" />
       </resources>
     </csc>
     <if test="${debug}">
