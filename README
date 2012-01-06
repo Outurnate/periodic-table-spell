@@ -13,11 +13,14 @@ directory
 
   $ nant
 
-INSTALLING ON WINDOWS
+RUNNING ON WINDOWS
 ----------------------------------------------------------
-Simply run setup.msi
-(duh)
+Make sure you have .net 2.0+ and gtk#
 
-INSTALLING ON LINUX
+http://www.microsoft.com/download/en/details.aspx?id=17851
+http://download.mono-project.com/gtk-sharp/gtk-sharp-2.12.10.win32.msi
+
+RUNNING ON LINUX
 ----------------------------------------------------------
-See BUILDING
+
+  $ mono periodic.exe
