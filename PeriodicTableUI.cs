@@ -111,5 +111,19 @@ namespace Spell
 
     [Widget]
     Window mainWindow;
+    [Widget]
+    TextView text;
+    [Widget]
+    RadioButton chunkSelect;
+    [Widget]
+    RadioButton elementSearch;
+    [Widget]
+    Button generate;
+    [Widget]
+    Image output;
+    [Widget]
+    Button saveAs;
+    [Widget]
+    Button about;
   }
 }
