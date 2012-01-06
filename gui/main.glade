@@ -7,6 +7,7 @@
     <property name="height_request">144</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Periodic Table Speller</property>
     <property name="window_position">center</property>
     <child>
       <widget class="GtkVBox" id="vbox1">
