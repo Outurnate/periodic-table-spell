@@ -4,13 +4,13 @@
   <property name="debug" value="true" />
   <property name="windows" value="false" />
   <target name="clean" description="remove all generated files">
-    <delete file="Periodic.exe" failonerror="false" />
-    <delete file="Periodic.exe.pdb" failonerror="false" />
-    <delete file="Periodic.exe.mdb" failonerror="false" />
+    <delete file="periodic.exe" failonerror="false" />
+    <delete file="periodic.exe.pdb" failonerror="false" />
+    <delete file="periodic.exe.mdb" failonerror="false" />
   </target>
   <target name="build" description="compiles the source code">
     <wsdl path="http://www.webservicex.net/periodictable.asmx?WSDL" language="CS" namespace="Spell" outfile="PeriodicTableService.cs" />
-    <csc target="exe" output="Periodic.exe" debug="${debug}">
+    <csc target="exe" output="periodic.exe" debug="${debug}" win32icon="icon.ico">
       <references>
         <include name="System.Drawing.dll" />
         <include name="System.Web.Services.dll" />
@@ -36,7 +36,7 @@
       </resources>
     </csc>
     <if test="${debug}">
-      <exec program="pdb2mdb" commandline="Periodic.exe" failonerror="false" />
+      <exec program="pdb2mdb" commandline="periodic.exe" failonerror="false" />
     </if>
   </target>
 </project>
