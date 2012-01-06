@@ -17,7 +17,7 @@
         <include name="System.Xml.dll" />
       </references>
       <pkg-references>
-        <package name="glade-sharp-2.0" unless="$cmd" />
+        <package name="glade-sharp-2.0" unless="${cmd}" />
       </pkg-references>
       <sources>
         <include name="AssemblyInfo.cs" />
