@@ -15,10 +15,9 @@ directory
 
 INSTALLING ON WINDOWS
 ----------------------------------------------------------
-Simply run setup.exe
+Simply run setup.msi
 (duh)
 
 INSTALLING ON LINUX
 ----------------------------------------------------------
-  $ make
-  $ sudo make install
+See BUILDING
