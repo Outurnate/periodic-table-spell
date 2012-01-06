@@ -17,6 +17,7 @@
    <Directory Id="ProgramFilesFolder">
     <Directory Id="INSTALLDIR" Name="Periodic">
      <Component Id="MainExecutable" Guid="5961B0F6-3807-44C0-A786-701B19B2A9C9">
+      <File Id="GTKSETUP" Source="gtk-sharp-2.12.10.win32.msi" Checksum="yes" Hidden="yes"/> 
       <File Id="AppEXE" Name="periodic.exe" Source="../bin/periodic.exe" Vital="yes">
        <Shortcut Id="startmenuApp" Directory="ProgramMenuDir" Name="Periodic Table Speller" WorkingDirectory="INSTALLDIR" Icon="app.ico" IconIndex="0" Advertise="yes" />
       </File>
@@ -45,8 +46,12 @@
   <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
 
   <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+  <Property Id="GTKINSTALLED"> 
+    <RegistrySearch Id="gtksearch" Key="SOFTWARE\Novell\Gtk-Sharp\2.8.3" Name="SdkInstallRoot" Root="HKLM" Type="raw"></RegistrySearch> 
+  </Property> 
   <UIRef Id="WixUI_InstallDir" />
 
+  <CustomAction Id="InstallGtk" FileKey="GTKSETUP" ExeCommand="/silent" Execute="deferred" Impersonate="no" Return="ignore"/>
   <CustomAction Id="LaunchApplication" FileKey="AppEXE" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
   <UI>
    <Publish Dialog="ExitDialog" Control="Finish" Order="1" Event="DoAction" Value="LaunchApplication">
@@ -58,6 +63,9 @@
    <LaunchConditions After="AppSearch" />
   </InstallUISequence>
   <InstallExecuteSequence>
+   <Custom Action="InstallGtk" Before="InstallFinalize"> 
+     <![CDATA[NOT REMOVE AND NOT GTKINSTALLED]]> 
+   </Custom>
    <LaunchConditions After="AppSearch" />
   </InstallExecuteSequence>
 
