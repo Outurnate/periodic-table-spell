@@ -3,13 +3,13 @@
   <description>Periodic compiler.</description>
   <property name="debug" value="true" />
   <target name="clean" description="remove all generated files">
-    <delete file="periodic.exe" failonerror="false" />
-    <delete file="periodic.exe.pdb" failonerror="false" />
-    <delete file="periodic.exe.mdb" failonerror="false" />
+    <delete file="bin/periodic.exe" failonerror="false" />
+    <delete file="bin/periodic.exe.pdb" failonerror="false" />
+    <delete file="bin/periodic.exe.mdb" failonerror="false" />
   </target>
   <target name="build" description="compiles the source code">
     <wsdl path="http://www.webservicex.net/periodictable.asmx?WSDL" language="CS" namespace="Spell" outfile="PeriodicTableService.cs" />
-    <csc target="exe" output="periodic.exe" debug="${debug}" win32icon="icon.ico">
+    <csc target="exe" output="bin/periodic.exe" debug="${debug}" win32icon="icon.ico">
       <references>
         <include name="System.Drawing.dll" />
         <include name="System.Web.Services.dll" />
@@ -35,7 +35,7 @@
       </resources>
     </csc>
     <if test="${debug}">
-      <exec program="pdb2mdb" commandline="periodic.exe" failonerror="false" />
+      <exec program="pdb2mdb" commandline="bin/periodic.exe" failonerror="false" />
     </if>
   </target>
 </project>
