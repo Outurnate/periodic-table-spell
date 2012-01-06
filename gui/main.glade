@@ -14,7 +14,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <widget class="GtkTextView" id="textview1">
+              <widget class="GtkTextView" id="text">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
               </widget>
@@ -29,7 +29,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <widget class="GtkRadioButton" id="radiobutton1">
+                  <widget class="GtkRadioButton" id="chunkSelect">
                     <property name="label" translatable="yes">Chunk Search Method</property>
                     <property name="width_request">64</property>
                     <property name="visible">True</property>
@@ -38,7 +38,7 @@
                     <property name="use_action_appearance">False</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
-                    <property name="group">radiobutton2</property>
+                    <property name="group">elementSearch</property>
                   </widget>
                   <packing>
                     <property name="expand">True</property>
@@ -47,7 +47,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkRadioButton" id="radiobutton2">
+                  <widget class="GtkRadioButton" id="elementSearch">
                     <property name="label" translatable="yes">Element Search Method</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -94,7 +94,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkButton" id="button1">
+              <widget class="GtkButton" id="generate">
                 <property name="label" translatable="yes">Generate</property>
                 <property name="height_request">32</property>
                 <property name="visible">True</property>
@@ -131,7 +131,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <widget class="GtkImage" id="image1">
+              <widget class="GtkImage" id="output">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="stock">gtk-missing-image</property>
@@ -147,7 +147,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <widget class="GtkButton" id="button2">
+                  <widget class="GtkButton" id="saveAs">
                     <property name="label" translatable="yes">Save As...</property>
                     <property name="width_request">96</property>
                     <property name="visible">True</property>
@@ -162,7 +162,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="button3">
+                  <widget class="GtkButton" id="about">
                     <property name="label" translatable="yes">About</property>
                     <property name="width_request">96</property>
                     <property name="visible">True</property>
