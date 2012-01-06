@@ -109,7 +109,7 @@ namespace Spell
         if (!string.IsNullOrEmpty(text.Buffer.Text))
 	{
           MemoryStream ms = new MemoryStream();
-          renderer.Render(logic.Spell(text.Buffer.Text, chunkSelect.Active && !elementSearch.Active ? PeriodicTableLogic.SearchAlgorithm.ChunkSearch : PeriodicTableLogic.SearchAlgorithm.ElementBased)).Save(ms, ImageFormat.Png);
+          (loadedBitmap = renderer.Render(logic.Spell(text.Buffer.Text, chunkSelect.Active && !elementSearch.Active ? PeriodicTableLogic.SearchAlgorithm.ChunkSearch : PeriodicTableLogic.SearchAlgorithm.ElementBased))).Save(ms, ImageFormat.Png);
           output.Clear();
           ms.Position = 0;
 	  using (Pixbuf oldPixbuf = output.Pixbuf)
@@ -121,11 +121,29 @@ namespace Spell
           md.Run();
           md.Destroy();
 	}
+        UpdateSensitivity();
       });
+      saveAs.Clicked += new EventHandler(delegate (object sender, EventArgs e)
+      {
+        FileChooserDialog fc = new Gtk.FileChooserDialog("Save As...", mainWindow, FileChooserAction.Save, "Cancel", ResponseType.Cancel, "Save", ResponseType.Accept);
+        if (fc.Run() == (int)ResponseType.Accept)
+	{
+          Stream file = File.Open(fc.Filename, FileMode.OpenOrCreate);
+          loadedBitmap.Save(file, ImageFormat.Png);
+	  file.Close();
+	}
+	fc.Destroy();
+      });
+    }
+
+    void UpdateSensitivity()
+    {
+      saveAs.Sensitive = loadedBitmap != null;
     }
 
     public void Run()
     {
+      UpdateSensitivity();
       mainWindow.Hide();
       loader.Run();
       Application.Run();
