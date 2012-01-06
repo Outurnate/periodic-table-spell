@@ -54,7 +54,15 @@ namespace Spell
         this.logic = logic;
         loaderWindow.Hidden += new EventHandler(delegate(object sender, EventArgs e)
 	{
-	  Application.Invoke(delegate(object sender2, EventArgs e2) { mainWindow.ShowAll(); });
+          if (logic.IsInit)
+            Application.Invoke(delegate(object sender2, EventArgs e2) { mainWindow.ShowAll(); });
+          else
+          {
+	    MessageDialog md = new MessageDialog (mainWindow, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "Periodic Table not loaded.  Program will now exit.");
+            md.Run();
+            md.Destroy();
+            Application.Quit();
+	  }
 	});
         loaderWindow.DeleteEvent += new DeleteEventHandler(delegate(object sender, DeleteEventArgs e)
 	{

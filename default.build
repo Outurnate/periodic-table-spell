@@ -9,7 +9,7 @@
   </target>
   <target name="build" description="compiles the source code">
     <wsdl path="http://www.webservicex.net/periodictable.asmx?WSDL" language="CS" namespace="Spell" outfile="PeriodicTableService.cs" />
-    <csc target="exe" output="bin/periodic.exe" debug="${debug}" win32icon="icon.ico">
+    <csc target="winexe" output="bin/periodic.exe" debug="${debug}" win32icon="icon.ico">
       <references>
         <include name="System.Drawing.dll" />
         <include name="System.Web.Services.dll" />
