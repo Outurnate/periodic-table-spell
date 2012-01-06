@@ -16,11 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Threading;
+using Gdk;
 using Gtk;
 using Glade;
 
 using GladeXml = Glade.XML;
+using GtkWindow = Gtk.Window;
+using GtkImage = Gtk.Image;
 
 namespace Spell
 {
@@ -33,14 +38,14 @@ namespace Spell
       [Widget]
       ProgressBar totalProgress;
       [Widget]
-      Window loaderWindow;
+      GtkWindow loaderWindow;
       [Widget]
       Button cancelButton;
 
       PeriodicTableLogic logic;
       Thread loaderThread;
 
-      public Loader(PeriodicTableLogic logic, Window mainWindow)
+      public Loader(PeriodicTableLogic logic, GtkWindow mainWindow)
       {
         GladeXml dlg_loading = new GladeXml(null, "loader.glade", "loaderWindow", null);
         dlg_loading.Autoconnect(this);
@@ -88,8 +93,7 @@ namespace Spell
       }
     }
 
-    PeriodicTableLogic logic;
-    PeriodicTableRenderer renderer;
+    Bitmap loadedBitmap;
     Loader loader;
 
     public PeriodicTableUI(PeriodicTableLogic logic, PeriodicTableRenderer renderer)
@@ -104,7 +108,14 @@ namespace Spell
       generate.Clicked += new EventHandler(delegate (object sender, EventArgs e)
       {
         if (!string.IsNullOrEmpty(text.Buffer.Text))
-          renderer.Render(logic.Spell(text.Buffer.Text, chunkSelect.Active && !elementSearch.Active ? PeriodicTableLogic.SearchAlgorithm.ChunkSearch : PeriodicTableLogic.SearchAlgorithm.ElementBased)).Save("temp.png", System.Drawing.Imaging.ImageFormat.Png);
+	{
+          MemoryStream ms = new MemoryStream();
+          renderer.Render(logic.Spell(text.Buffer.Text, chunkSelect.Active && !elementSearch.Active ? PeriodicTableLogic.SearchAlgorithm.ChunkSearch : PeriodicTableLogic.SearchAlgorithm.ElementBased)).Save(ms, ImageFormat.Png);
+          output.Clear();
+          ms.Position = 0;
+	  using (Pixbuf oldPixbuf = output.Pixbuf)
+	    output.Pixbuf = new Pixbuf(ms);
+	}
         else
 	{
 	  MessageDialog md = new MessageDialog (mainWindow, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "Please enter text into the conversion field");
@@ -122,7 +133,7 @@ namespace Spell
     }
 
     [Widget]
-    Window mainWindow;
+    GtkWindow mainWindow;
     [Widget]
     TextView text;
     [Widget]
@@ -132,7 +143,7 @@ namespace Spell
     [Widget]
     Button generate;
     [Widget]
-    Image output;
+    GtkImage output;
     [Widget]
     Button saveAs;
     [Widget]
