@@ -99,7 +99,19 @@ namespace Spell
       Application.Init();
       GladeXml dlg_main = new GladeXml(null, "main.glade", "mainWindow", null);
       dlg_main.Autoconnect(this);
+      chunkSelect.Active = true;
       loader = new Loader(logic, mainWindow);
+      generate.Clicked += new EventHandler(delegate (object sender, EventArgs e)
+      {
+        if (!string.IsNullOrEmpty(text.Buffer.Text))
+          renderer.Render(logic.Spell(text.Buffer.Text, chunkSelect.Active && !elementSearch.Active ? PeriodicTableLogic.SearchAlgorithm.ChunkSearch : PeriodicTableLogic.SearchAlgorithm.ElementBased)).Save("temp.png", System.Drawing.Imaging.ImageFormat.Png);
+        else
+	{
+	  MessageDialog md = new MessageDialog (mainWindow, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "Please enter text into the conversion field");
+          md.Run();
+          md.Destroy();
+	}
+      });
     }
 
     public void Run()
