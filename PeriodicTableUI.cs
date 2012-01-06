@@ -19,6 +19,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using Gdk;
 using Gtk;
@@ -96,10 +97,12 @@ namespace Spell
 
     Bitmap loadedBitmap;
     Loader loader;
+    AboutDialog aboutDialog;
 
     public PeriodicTableUI(PeriodicTableLogic logic, PeriodicTableRenderer renderer)
     {
       Application.Init();
+      aboutDialog = new AboutDialog();
       GladeXml dlg_main = new GladeXml(null, "main.glade", "mainWindow", null);
       dlg_main.Autoconnect(this);
       chunkSelect.Active = true;
@@ -142,6 +145,17 @@ namespace Spell
 	}
 	fc.Destroy();
       });
+      about.Clicked += new EventHandler(delegate (object sender, EventArgs e)
+      {
+        aboutDialog.Run();
+      });
+      Assembly asm = Assembly.GetExecutingAssembly ();
+      aboutDialog.ProgramName = (asm.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0] as AssemblyTitleAttribute).Title;
+      aboutDialog.Version = asm.GetName().Version.ToString ();
+      aboutDialog.Comments = (asm.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false)[0] as AssemblyDescriptionAttribute).Description;
+      aboutDialog.Copyright = (asm.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0] as AssemblyCopyrightAttribute).Copyright;
+      aboutDialog.License = license;
+      aboutDialog.Authors = authors;
     }
 
     void UpdateSensitivity()
@@ -156,6 +170,27 @@ namespace Spell
       loader.Run();
       Application.Run();
     }
+
+    static string[] authors = new string[]
+    {
+      "Joseph Dillon <joe@w00t42.net>"
+    };
+	
+    static string license =
+@"Copyright (C) 2011 Joseph Dillon
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.";
 
     [Widget]
     GtkWindow mainWindow;

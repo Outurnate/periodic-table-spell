@@ -20,6 +20,7 @@
         <package name="glade-sharp-2.0" unless="${windows}" />
       </pkg-references>
       <sources>
+        <include name="AssemblyInfo.cs" />
         <include name="Element.cs" />
         <include name="PeriodicTableService.cs" />
         <include name="PeriodicTableLogic.cs" />
