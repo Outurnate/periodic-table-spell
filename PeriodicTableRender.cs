@@ -39,7 +39,7 @@ namespace Spell
       for (int i = 0; i < elements.Length; i++)
         if (elements[i].HasValue)
 	{
-          Rectangle currentRectangle = new Rectangle(i * options.ElementWidth, 0, options.ElementWidth, options.ElementHeight);
+          Rectangle currentRectangle = new Rectangle(i * options.ElementWidth, 0, options.ElementWidth - 1, options.ElementHeight - 1);
           g.TextRenderingHint = options.ForceAntiAlias ? TextRenderingHint.AntiAlias : TextRenderingHint.SystemDefault;
 	  g.DrawRectangle(options.LinePen, currentRectangle);
           g.DrawString(elements[i].Value.Symbol, new Font(options.Font, 20), options.SymbolBrush, new Rectangle(currentRectangle.X, currentRectangle.Y, currentRectangle.Width, currentRectangle.Height), symbolFormat);

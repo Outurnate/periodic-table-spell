@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
@@ -98,8 +99,6 @@ namespace Spell
 
     public PeriodicTableUI(PeriodicTableLogic logic, PeriodicTableRenderer renderer)
     {
-      this.logic = logic;
-      this.renderer = renderer;
       Application.Init();
       GladeXml dlg_main = new GladeXml(null, "main.glade", "mainWindow", null);
       dlg_main.Autoconnect(this);
